@@ -1,0 +1,24 @@
+Add a command-button to a new sheet, add the following code and update the
+MaxSheets and MaxColumns variables as needed
+
+Private Sub CommandButton1_Click()
+    MaxSheets = 4
+    MaxColumns = 10
+	SheetToWrite = MaxSheets + 1
+    Worksheets(SheetToWrite).Cells(1, 1).Value = "Sheet Name"
+    Worksheets(SheetToWrite).Cells(1, 2).Value = "Number of digits"
+    Worksheets(SheetToWrite).Cells(1, 3).Value = "Width after POI column autofit"
+    Worksheets(SheetToWrite).Cells(1, 4).Value = "Width after Excel column autofit"
+    For Sheet = 1 To MaxSheets
+        For Column = 1 To MaxColumns
+            Row = ((Sheet - 1) * MaxColumns) + Column + 1
+            ColumnName = Split(Cells(, Column).Address, "$")(1)
+            Worksheets(SheetToWrite).Cells(Row, 1).Value = Worksheets(Sheet).Name
+            Worksheets(SheetToWrite).Cells(Row, 2).Value = Column
+            Worksheets(SheetToWrite).Cells(Row, 3).Value = Worksheets(Sheet).Columns(ColumnName).ColumnWidth
+            Worksheets(Sheet).Columns(ColumnName).AutoFit
+            Worksheets(SheetToWrite).Cells(Row, 4).Value = Worksheets(Sheet).Columns(ColumnName).ColumnWidth
+        Next Column
+    Next Sheet
+End Sub
+
